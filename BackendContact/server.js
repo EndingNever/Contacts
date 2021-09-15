@@ -109,10 +109,6 @@ app.patch("/contacts/:person", async (req, res) => {
         WHERE FirstName = '${person}'`
 
         const [update] = await req.db.query(SQL)
-
-        // if (!req.body.id){
-        //     console.log(`${id}` + ' IF is undefined')
-        // }
         
     console.log(res.json(update));  
     // return res.status(200).json(update)

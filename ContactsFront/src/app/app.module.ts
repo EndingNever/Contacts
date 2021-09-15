@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { GetContactsService } from './get-contacts.service';
 import { WebRequestService } from './web-request.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { WebRequestService } from './web-request.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [WebRequestService],
   bootstrap: [AppComponent]
