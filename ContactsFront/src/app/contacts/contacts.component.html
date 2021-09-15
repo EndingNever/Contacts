@@ -1,0 +1,15 @@
+<div class="row" >
+    <div class="col" *ngFor = "let contact of newContacts; let i = index;">
+            <h1 *ngIf="contact.FirstName !== 'undefined'" >
+                {{ contact.FirstName }} {{ contact.LastName }}
+            </h1>
+            <h2 *ngIf="contact.state !== 'undefined'"> {{ contact.state }}</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h1>Enter First Name: <input type="text" [(ngModel)]="contactFirstName"></h1>
+        <h1>Enter Last Name: <input type="text" [(ngModel)]="contactLastName"></h1>
+        <button  class="btn btn-primary" (click)="submitContact(contactFirstName, contactLastName)">Submit</button> 
+    </div>
+</div>

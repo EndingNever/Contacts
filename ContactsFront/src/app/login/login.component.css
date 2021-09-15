@@ -1,0 +1,20 @@
+.myCol {
+    /* border: 2px solid gold; */
+    align-self: center;
+    width: 400px;
+}
+
+.mainRow {
+    background-color: wheat;
+    /* border: 2px solid purple; */
+    height: 400px;
+    width: 800px;
+}
+
+.myRow {
+    /* border: 2px solid green; */
+}
+
+.username {
+    /* border: 2px solid purple; */
+}
