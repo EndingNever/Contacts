@@ -11,15 +11,13 @@ export class ContactsComponent implements OnInit {
   contactFirstName?:any;
   contactLastName?:any;
   newContacts:any;
-  // getContacts:any;
-  constructor(private contactsService: GetContactsService,
-    private webReq: WebRequestService) { }
+
+  constructor(private webReq: WebRequestService) { }
 
   ngOnInit(): void {
     this.webReq.get('contacts').subscribe((response: any) => {
       this.newContacts = response;
     });
-    // console.log(this.contactsService.getContact())
   }
 
   // getContacts() {
@@ -33,6 +31,11 @@ export class ContactsComponent implements OnInit {
         console.log(response)
       })
     }
+
+  updateContact() {
+    // this.webReq.patch('contacts', )
+    this.webReq.patch('chicken', {FirstName: "chicken"})
+  }
 
   //   if (!lastName) {
   //     lastName = null;

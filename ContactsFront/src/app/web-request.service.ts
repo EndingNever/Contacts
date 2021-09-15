@@ -21,7 +21,8 @@ export class WebRequestService {
    }
   
    patch(uri: string, payload: Object) {
-    this.http.patch(`${this.ROOT_URL}/${uri}`, payload)
+    // this.http.patch(`${this.ROOT_URL}/'contacts'/${uri}`, payload)
+    console.log(`${this.ROOT_URL}/contacts/${uri}`, payload)
    }
 
    delete(uri:string) {

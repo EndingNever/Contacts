@@ -83,7 +83,7 @@ app.post('/contacts', async (req, res) => {
     }
 })
 
-app.put("/contacts/:person", async (req, res) => {
+app.patch("/contacts/:person", async (req, res) => {
     try {
         const body = req.body
         const person = req.params.person
@@ -97,7 +97,6 @@ app.put("/contacts/:person", async (req, res) => {
         const state = body.state
 
         const [getId] = await req.db.query(`SELECT id FROM CONTACTS WHERE FirstName = '${req.body.FirstName}'`)
-        const realId = getId[0]
         
         const SQL = `UPDATE contacts 
         SET FirstName = '${firstName}',
@@ -118,9 +117,6 @@ app.put("/contacts/:person", async (req, res) => {
     console.log(res.json(update));  
     // return res.status(200).json(update)
     } catch (err) {
-        const id = await req.db.query(`SELECT id FROM CONTACTS WHERE FirstName = '${req.body.FirstName}'`)
-        const [realId] = id
-        console.log()
         return res.status(500).json({error:err, reason: err.message})
     }
 })
