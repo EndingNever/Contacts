@@ -1,6 +1,15 @@
-import { GetContactsService } from './../get-contacts.service';
 import { Component, OnInit } from '@angular/core';
 import { WebRequestService } from '../web-request.service';
+import {ThemePalette} from '@angular/material/core';
+
+
+export interface Task {
+  name: string;
+  completed: boolean;
+  color: ThemePalette;
+  subtasks?: Task[];
+}
+
 
 @Component({
   selector: 'app-contacts',
@@ -8,11 +17,29 @@ import { WebRequestService } from '../web-request.service';
   styleUrls: ['./contacts.component.css']
 })
 export class ContactsComponent implements OnInit {
+  
+  task: Task = {
+    name: 'Indeterminate',
+    completed: false,
+    color: 'primary',
+    subtasks: [
+      {name: 'Primary', completed: false, color: 'primary'},
+      {name: 'Accent', completed: false, color: 'accent'},
+      {name: 'Warn', completed: false, color: 'warn'}
+    ]
+  };
+
+  checked:boolean = false;
+  enterNew:boolean = false;
   contactFirstName?:any;
   contactLastName?:any;
   newContacts:any;
+  displayFirstName:boolean = true;
+  displayLastName:boolean = true;
+  displayState:boolean = true;
 
-  constructor(private webReq: WebRequestService) { }
+  constructor(
+    private webReq: WebRequestService) { }
 
   ngOnInit(): void {
     this.webReq.get('contacts').subscribe((response: any) => {
@@ -20,6 +47,11 @@ export class ContactsComponent implements OnInit {
     });
   }
 
+  log(name:string){
+    
+  }
+
+  
   // getContacts() {
   //   this.contactsService.getContacts().subscribe((response: any)=> {
   //     console.log(response)
@@ -33,8 +65,8 @@ export class ContactsComponent implements OnInit {
     }
 
   updateContact() {
-    // this.webReq.patch('contacts', )
-    this.webReq.patch('chicken', {FirstName: "chicken"})
+    // console.log
+    // this.webReq.patch('chicken', {FirstName: "chicken"})
   }
 
   //   if (!lastName) {

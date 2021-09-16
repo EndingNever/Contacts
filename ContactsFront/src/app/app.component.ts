@@ -1,3 +1,5 @@
+import { ContactsComponent } from './contacts/contacts.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,4 +9,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'AngularBackendFinal';
+
+  constructor(private matDialog: MatDialog) {}
+
+
 }

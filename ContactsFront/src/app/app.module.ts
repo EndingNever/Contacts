@@ -10,6 +10,11 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { GetContactsService } from './get-contacts.service';
 import { WebRequestService } from './web-request.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSliderModule } from '@angular/material/slider';
+import {MatDialogModule} from '@angular/material/dialog'
+import { MatButtonModule } from '@angular/material/button'
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +28,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatSliderModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatCheckboxModule
   ],
   providers: [WebRequestService],
   bootstrap: [AppComponent]

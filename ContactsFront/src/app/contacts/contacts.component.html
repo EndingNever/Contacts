@@ -1,16 +1,47 @@
 <div class="row" >
+    <div class="col-12">
+        <h1>Filter Contacts By:</h1>
+        <h2 (click)="displayFirstName=!displayFirstName">First Name</h2>
+        <h2 (click)="displayLastName=!displayLastName">Last Name</h2>
+        <h2 (click)="displayState=!displayState">State</h2>
+    </div>
     <div class="col" *ngFor = "let contact of newContacts; let i = index;">
             <h1 *ngIf="contact.FirstName !== 'undefined'" >
-                {{ contact.FirstName }} {{ contact.LastName }}
+                <p *ngIf= displayFirstName>{{ contact.FirstName }}</p> <p *ngIf=displayLastName>{{ contact.LastName }}</p>
             </h1>
-            <h2 *ngIf="contact.state !== 'undefined'"> {{ contact.state }}</h2>
+            <h2 *ngIf=" displayState===true && contact.state !== 'undefined' "> {{ contact.state }}</h2>
     </div>
 </div>
 <div class="row">
     <div class="col">
-        <h1>Enter First Name: <input type="text" [(ngModel)]="contactFirstName"></h1>
-        <h1>Enter Last Name: <input type="text" [(ngModel)]="contactLastName"></h1>
-        <!-- <button  class="btn btn-primary" (click)="submitContact(contactFirstName, contactLastName)">Submit</button>  -->
+        <h1>Enter New Contact:</h1>
+        <button class="btn btn-warning" (click)="enterNew=true">New Contact?</button>
+        <div *ngIf="enterNew===true">
+            <h1>Enter First Name: <input type="text" [(ngModel)]="contactFirstName" ></h1>
+            <h1>Enter Last Name: <input type="text" [(ngModel)]="contactLastName" ></h1>
+            <h1>Enter Email: <input type="text" disabled></h1>
+            <!-- <button  class="btn btn-primary" (click)="submitContact(contactFirstName, contactLastName)">Submit</button>  -->
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h1>Update A Contact</h1>
+        <h1>Select a contact to update</h1>
+        <div *ngFor = "let contact of newContacts; let i = index;">
+            <h1><mat-checkbox  labelPosition="before" class="ms-2" color="warn" (click)="log(contact.FirstName)">{{ contact.FirstName }}</mat-checkbox>
+                <input type="text" *ngIf="">
+            </h1>
+        </div>
         <button  class="btn btn-primary" (click)="updateContact()">Update</button> 
+    </div>
+</div>
+<div class="row">
+    <div class="col text-center">
+        <h1>DELETE ------ DANGEROUS</h1>
+            <button class="btn btn-warning" >CLICK HERE TO DELETE</button>
+            <div>
+                
+            </div>
     </div>
 </div>
