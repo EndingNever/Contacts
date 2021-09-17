@@ -100,18 +100,13 @@ app.patch("/contacts/:person", async (req, res) => {
         
         const SQL = `UPDATE contacts 
         SET FirstName = '${firstName}',
-        LastName = '${lastName}',
-        number = '${number}',
-        email = '${email}',
-        address = '${address}',
-        city = '${city}',
-        state = '${state}' 
+        LastName = '${lastName}'
         WHERE FirstName = '${person}'`
 
         const [update] = await req.db.query(SQL)
         
     console.log(res.json(update));  
-    // return res.status(200).json(update)
+    return res.status(200).json(update)
     } catch (err) {
         return res.status(500).json({error:err, reason: err.message})
     }

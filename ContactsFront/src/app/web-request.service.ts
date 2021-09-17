@@ -20,9 +20,9 @@ export class WebRequestService {
     return this.http.post(`${this.ROOT_URL}/${uri}`, {"FirstName" : firstName, "LastName": lastName})
    }
   
-   patch(uri: string, payload: Object) {
-    // this.http.patch(`${this.ROOT_URL}/'contacts'/${uri}`, payload)
-    console.log(`${this.ROOT_URL}/contacts/${uri}`, payload)
+   patch(uri: string, newFirstName:string, newLastName: string) {
+    // console.log(`${this.ROOT_URL}/contacts/${uri}`, {"FirstName" : newFirstName, "LastName": newLastName})
+    // this.http.patch(`${this.ROOT_URL}/'contacts'/${uri}`, {"FirstName" : newFirstName, "LastName": newLastName})
    }
 
    delete(uri:string) {
