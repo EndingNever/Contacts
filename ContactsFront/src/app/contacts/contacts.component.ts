@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { WebRequestService } from '../web-request.service';
 import { ThemePalette } from '@angular/material/core';
 import { ElementRef } from '@angular/core';
+import { SimpleChanges } from '@angular/core';
 
 
 export interface Task {
@@ -50,7 +51,7 @@ export class ContactsComponent implements OnInit {
     private webReq: WebRequestService) { }
 
   ngOnInit(): void {
-    this.webReq.get('contacts').subscribe((response: any) => {
+     this.webReq.get('contacts').subscribe((response: any) => {
       this.newContacts = response;
     });
   }
@@ -94,9 +95,7 @@ export class ContactsComponent implements OnInit {
       console.log(name + " is now " + newFirstName + ' ' + newLastName)
       this.editContact=false; 
     }
-
-    this.webReq.patch(name, newFirstName, newLastName)
-
+    this.webReq.patch(name, newFirstName, newLastName).subscribe()
   }
 
   updateCheckbox(name: any) {

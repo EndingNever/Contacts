@@ -1,15 +1,22 @@
 const express = require('express');
+const jwt = require('jsonwebtoken')
 const cors = require('cors');
 const {getDatabaseConnection} = require('./util');
+const bcrypt = require('bcrypt');
+const helmet = require('helmet');
+const { request, response } = require('express');
 
 const app = express();
 app.use(getDatabaseConnection);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({ origin: /http:\/\/localhost/ }));
+app.use(helmet());
 app.options('*', cors());
 
 require('dotenv').config();
+
+
 
 app.get('/', async (req, res) => {
     try {
@@ -24,7 +31,7 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/contacts', async (req, res) => {
+app.get('/contacts', authToken, async (req, res) => {
     try {
         const SQL = 'SELECT * FROM contacts'
         const [contacts] = await req.db.query(SQL);
@@ -112,6 +119,74 @@ app.patch("/contacts/:person", async (req, res) => {
     }
 })
 
+//* USER LOGIN ***
+// Sign up User
+app.post('/signup', async (req, res) => {
+    try{
+        const encryptedPass = await bcrypt.hash(req.body.userPassword, 10);
+        const userName = req.body.userName;
+        const [row] = await req.db.query
+        ('SELECT * FROM users WHERE userName = :userName', {userName})
+
+        if(row.length === 0) {
+            await req.db.query
+            ('INSERT INTO users (userName, userPassword) VALUES (:userName, :encryptedPass)',
+            {userName, encryptedPass} )
+            res.json("User added.");
+        } else {
+            res.json("Username is unavailable.")
+        }
+    }catch (error) {
+        res.json(error);
+    }
+})
+
+// Login user & verify username / password
+app.post('/login', async (req, res) => {
+    try {
+        const userName = req.body.userName;
+        const password = req.body.userPassword;
+        const [userQuery] = await req.db.query('SELECT * FROM users WHERE userName = :userName', {userName})
+
+        if(userQuery.length === 0 ) {
+            res.json({accessToken: 'usernameNotFound'})
+        } else { 
+            if( await bcrypt.compare(password, userQuery[0].userPassword)===true) {
+                const user = {userId: userQuery[0].userId,
+                    userName: userQuery[0].userName,
+                    userPassword: userQuery[0].userPassword }
+
+                const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1h'})
+                    console.log('password confirmed')
+                    res.json({accessToken: token});
+            } else {
+                console.log('DENIED')
+                res.json({accessToken: 'passwordInvalid'})
+            }
+        }
+    }catch(error) {
+        res.json(error)
+    }
+})
+//* END User Login***
+
+
+function authToken(req, res, next) {
+    const authHeader = req.headers['auth'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if(token === null) {
+        res.json("Token not given, access denied.")
+    } else {
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
+            if(error) {
+                res.json("Token verification error, access denied")
+            } else {
+                req.user = user
+                next()
+            }
+        })
+    }
+}
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

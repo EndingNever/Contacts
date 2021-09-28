@@ -1,4 +1,5 @@
 <div class="container-fluid vh-100 d-flex flex-column justify-content-center align-content-center">
+    <!--! Sort By  -->
     <div class="row" >
         <div class="checkbox">
             <label class="">
@@ -9,6 +10,8 @@
                 <!-- <input  type="checkbox" checked data-toggle="toggle">State -->
             </label>
         </div>
+
+        <!--! Display Contacts  -->
         <div class="col contactsDisplay"
             (click)="mouseenter(contact.FirstName, contact.LastName)"
             *ngFor = "let contact of newContacts; let i = index;" >
@@ -18,6 +21,8 @@
             <h3 *ngIf=" displayState===true && contact.state !== 'undefined' "> {{ contact.state }}</h3>
         </div>
     </div>
+    
+    <!--! Edit Contact  -->
     <div class="row" *ngIf="editContact">
         <div class="col" >
              <h1>Rename {{ranVarFirst}} {{ranVarLast}} </h1>
@@ -30,6 +35,8 @@
             </h1>
         </div>
     </div>
+
+    <!--! New Contact-->
     <div class="row">
         <div class="col">
             <h1>Enter New Contact:</h1>

@@ -1,7 +1,7 @@
 .myCol {
     /* border: 2px solid gold; */
     align-self: center;
-    width: 400px;
+    width: auto;
 }
 
 .mainRow {

@@ -20,10 +20,17 @@ export class WebRequestService {
     return this.http.post(`${this.ROOT_URL}/${uri}`, {"FirstName" : firstName, "LastName": lastName})
    }
   
-   patch(uri: string, newFirstName:string, newLastName: string) {
-    // console.log(`${this.ROOT_URL}/contacts/${uri}`, {"FirstName" : newFirstName, "LastName": newLastName})
-    // this.http.patch(`${this.ROOT_URL}/'contacts'/${uri}`, {"FirstName" : newFirstName, "LastName": newLastName})
+   signUp(uri:any, userName:string, userPass:string) {
+     try {
+       return this.http.post(`${this.ROOT_URL}/${uri}`,{"userName": userName, "userPassword": userPass} )
+     } catch(error:any) {
+       return error
+     }
    }
+   
+   patch(uri: string, newFirstName:string, newLastName: string) {
+    return this.http.patch(`${this.ROOT_URL}/contacts/${uri}`, {"FirstName" : newFirstName, "LastName": newLastName})
+    }
 
    delete(uri:string) {
      return this.http.delete(`${this.ROOT_URL}/${uri}`)

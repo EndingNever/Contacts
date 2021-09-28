@@ -1,6 +1,6 @@
 import { ContactsComponent } from './contacts/contacts.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-root',

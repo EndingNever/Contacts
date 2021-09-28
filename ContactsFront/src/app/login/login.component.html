@@ -1,12 +1,30 @@
-<div class="row mainRow ">
-    <div class="col-12 w-100 text-center myCol">
-      <h1>login</h1>
-      <div class="col-12 h-75 username d-flex flex-column justify-content-center align-items-center">
-        <h6>Username: <input type="text"></h6>
-        <h6>Password: <input type="text"></h6>
-        <button class="btn btn-primary">
-          login
-        </button>
-      </div>
+<div class="row mainRow vh-100">
+  <div class="col-12 w-100 text-center myCol" *ngIf="signUp === false">
+    <h1>login</h1>
+    <div
+      class="
+        col-12
+        h-75
+        username
+        d-flex
+        flex-column
+        justify-content-center
+        align-items-center
+      "
+    >
+      <h6>Username: <input type="text" /></h6>
+      <h6>Password: <input type="text" /></h6>
+      <button class="btn btn-primary">login</button>
+      <button class="btn btn-success" (click)="signUp = true">Sign up</button>
     </div>
   </div>
+  <div class="col-12 d-flex justify-content-center align-items-center" *ngIf="signUp===true">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <h1>Create User</h1>
+      <input type="text" placeholder="Username" #newUser>
+      <input type="password" placeholder="Password" #newPass>
+      <button class="btn btn-success w-50" (click)="onCreateUser(newUser.value, newPass.value)">Submit</button>
+      <p *ngIf="userTaken===1"> User Taken! </p>
+    </div>
+  </div>
+</div>
