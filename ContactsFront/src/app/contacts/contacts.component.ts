@@ -1,5 +1,6 @@
+import { GetContactsService } from './../services/get-contacts.service';
 import { Component, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { WebRequestService } from '../web-request.service';
+import { WebRequestService } from '../services/web-request.service';
 import { ThemePalette } from '@angular/material/core';
 import { ElementRef } from '@angular/core';
 import { SimpleChanges } from '@angular/core';
@@ -21,6 +22,9 @@ export interface Task {
 export class ContactsComponent implements OnInit {
   @ViewChild('myElement') myElement?: ElementRef;
 
+
+ contacts:any = this.getContact.getContacts();
+  
   task: Task = {
     name: 'Indeterminate',
     completed: false,
@@ -31,7 +35,7 @@ export class ContactsComponent implements OnInit {
       { name: 'Warn', completed: false, color: 'warn' }
     ]
   };
-
+  
   checked: boolean = false;
   checkStatus: boolean = false;
   editContact: boolean = false;
@@ -48,7 +52,8 @@ export class ContactsComponent implements OnInit {
   currentContactEdit: any;
 
   constructor(
-    private webReq: WebRequestService) { }
+    private webReq: WebRequestService,
+    private getContact: GetContactsService) { }
 
   ngOnInit(): void {
      this.webReq.get('contacts').subscribe((response: any) => {
@@ -68,7 +73,7 @@ export class ContactsComponent implements OnInit {
   // }
 
   submitContact(firstName: string, lastName: string) {
-    this.webReq.post('contacts', firstName, lastName).subscribe((response) => {
+    this.webReq.post(firstName, lastName).subscribe((response) => {
       console.log(response)
     })
   }

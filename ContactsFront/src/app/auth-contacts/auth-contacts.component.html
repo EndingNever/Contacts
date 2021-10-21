@@ -1,0 +1,67 @@
+<div
+  class="container vh-100 vw-100 pt-3 d-flex justify-content-center"
+>
+  <div class="row">
+    <div class="col d-flex flex-column justify-content-center align-content-center text-center">
+      <div>WELCOME {{ currentUser }}!!!</div>
+      <!-- Display Contacts -->
+      <div *ngFor="let contact of contacts; let i = index">
+        {{ contact.FirstName }} {{ contact.LastName }}
+        <!-- Delete Contact -->
+        <button
+          class="btn btn-danger"
+          (click)="deleteContact(contact.FirstName, contact.LastName)"
+        >
+          DELETE CONTACT
+        </button>
+        <button class="btn btn-warning" (click)="enableEdit(i)">
+          Edit Contact
+        </button>
+        <!-- EDIT contact -->
+        <div class="m-3 d-block justify-content-center align-content-center" *ngIf="i === editContact">
+            <p class="col-12 justify-content-center align-content-center">Edit {{contact.FirstName}} {{contact.LastName}}</p>
+            <input class="col-6 d-flex justify-content-center align-items-center" type="text" value={{contact.FirstName}} #editFirstName>
+            <input class="col-6 d-flex justify-content-center align-items-center" type="text" value={{contact.LastName}} #editLastName>
+            <button class="btn btn-warning d-block" (click)="onEditSubmit(contact.FirstName, contact.LastName, editFirstName.value,editLastName.value)">
+              Submit New Details
+            </button>
+        </div>
+        <!-- <div *ngIf="editContact(i)">
+          <input type="text" placeholder={{contact.FirstName}}>
+          <input type="text" placeholder={{contact.LastName}}>
+        </div> -->
+      </div>
+      <div *ngIf="contacts.length === 0">You have no contacts</div>
+      <button
+        (click)="newContact = true"
+        class="btn btn-primary btn-sm text-center"
+      >
+        Add Contacts
+      </button>
+      <div>
+        <label *ngIf="newContact === true" class="form" for="First Name">
+          <input
+            class="form-control"
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            #firstName
+          />
+          <input
+            class="form-control"
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            #lastName
+          />
+          <button
+            class="btn btn-primary"
+            (click)="addContacts(firstName.value, lastName.value)"
+          >
+            Add New Contact
+          </button>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

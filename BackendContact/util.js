@@ -1,4 +1,4 @@
-require ('dotenv').config();
+require('dotenv').config();
 const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
@@ -10,21 +10,21 @@ const pool = mysql.createPool({
 
 const getDatabaseConnection = async (req, res, next) => {
     try {
-    req.db = await pool.getConnection();
-    req.db.connection.config.namedPlaceholders = true;
+        req.db = await pool.getConnection();
+        req.db.connection.config.namedPlaceholders = true;
+        
+        await req.db.query(`SET SESSION sql_mode = "TRADITIONAL"`);
+        await req.db.query(`SET time_zone = '-8:00'`);
 
-    await req.db.query(`SET SESSION sql_mode = "TRADITIONAL"`);
-    await req.db.query(`SET time_zone = '-8:00'`);
+        await next();
 
-    await next();
+        req.db.release();
+    } catch (error) {
+        console.log(error);
 
-    req.db.release();
-    } catch (err) {
-    console.log(err);
-
-    if (req.db) req.db.release();
-    throw err;
-    }   
+        if (req.db) req.db.release();
+        throw error;
+    }
 }
 
 module.exports.getDatabaseConnection = getDatabaseConnection;

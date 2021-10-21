@@ -7,13 +7,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ContactsComponent } from './contacts/contacts.component';
-import { GetContactsService } from './get-contacts.service';
-import { WebRequestService } from './web-request.service';
+import { GetContactsService } from './services/get-contacts.service';
+import { WebRequestService } from './services/web-request.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import {MatDialogModule} from '@angular/material/dialog'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AuthContactsComponent } from './auth-contacts/auth-contacts.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     AppComponent,
     LoginComponent,
     ContactsComponent,
+    AuthContactsComponent,
     
   ],
   imports: [

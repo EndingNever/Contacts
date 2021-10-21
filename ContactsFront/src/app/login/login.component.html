@@ -10,11 +10,14 @@
         flex-column
         justify-content-center
         align-items-center
+        text-center
       "
     >
-      <h6>Username: <input type="text" /></h6>
-      <h6>Password: <input type="text" /></h6>
-      <button class="btn btn-primary">login</button>
+    <!-- <div *ngFor="let contact of contacts">{{contact.FirstName}}</div> -->
+      <h6> <input class="text-center" placeholder="Username" type="text" #userNameLogin value='gown'/></h6>
+      <h6> <input class="text-center" placeholder="Password" type="password" #userPassLogin value='gown'/></h6>
+      <p *ngIf="passwordInvalid===1">Incorrect username or password</p>
+      <button class="btn btn-primary" (click)="onLogin(userNameLogin.value, userPassLogin.value)">login</button>
       <button class="btn btn-success" (click)="signUp = true">Sign up</button>
     </div>
   </div>
@@ -24,7 +27,8 @@
       <input type="text" placeholder="Username" #newUser>
       <input type="password" placeholder="Password" #newPass>
       <button class="btn btn-success w-50" (click)="onCreateUser(newUser.value, newPass.value)">Submit</button>
-      <p *ngIf="userTaken===1"> User Taken! </p>
+      <button class="btn btn-danger" (click)="signUp=false">Cancel</button>
+      <p *ngIf="userTaken===1"> Username Taken! </p>
     </div>
   </div>
 </div>

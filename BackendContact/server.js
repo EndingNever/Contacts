@@ -4,7 +4,8 @@ const cors = require('cors');
 const {getDatabaseConnection} = require('./util');
 const bcrypt = require('bcrypt');
 const helmet = require('helmet');
-const { request, response } = require('express');
+const { req, res } = require('express');
+
 
 const app = express();
 app.use(getDatabaseConnection);
@@ -14,8 +15,14 @@ app.use(cors({ origin: /http:\/\/localhost/ }));
 app.use(helmet());
 app.options('*', cors());
 
-require('dotenv').config();
+// const auth = express.Router();
+// auth.use(express.json());
+// auth.use(express.urlencoded({ extended: true}));
+// auth.use(getDatabaseConnection);
 
+
+
+require('dotenv').config();
 
 
 app.get('/', async (req, res) => {
@@ -31,18 +38,16 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/contacts', authToken, async (req, res) => {
-    try {
-        const SQL = 'SELECT * FROM contacts'
-        const [contacts] = await req.db.query(SQL);
 
-        // console.log(contacts)
-        res.status(200).json(contacts);
-    } catch (err) {
-        // console.log(await req.db.query(`SELECT * FROM contacts`));
-        res.status(500).json({error:err, reason: err.message});
+app.get('/contacts', authToken, async function (req, res) {
+    try {
+        const userID = req.user.userID;
+        const [rows] = await req.db.query(`SELECT * FROM contacts WHERE userID = :userID`, { userID });
+        res.json(rows);
+    } catch (error) {
+        res.json(error)
     }
-});
+})
 
 
 
@@ -141,52 +146,52 @@ app.post('/signup', async (req, res) => {
     }
 })
 
+
+
 // Login user & verify username / password
 app.post('/login', async (req, res) => {
-    try {
+    try{
         const userName = req.body.userName;
-        const password = req.body.userPassword;
-        const [userQuery] = await req.db.query('SELECT * FROM users WHERE userName = :userName', {userName})
-
-        if(userQuery.length === 0 ) {
+        const userPassword = req.body.userPassword;
+        const [userQuery] = await req.db.query(`SELECT * FROM users WHERE userName = :userName`, { userName })
+        if(userQuery.length===0) {
             res.json({accessToken: 'usernameNotFound'})
-        } else { 
-            if( await bcrypt.compare(password, userQuery[0].userPassword)===true) {
-                const user = {userId: userQuery[0].userId,
+        } else {
+            if ( await bcrypt.compare(userPassword, userQuery[0].userPassword) === true) {
+                const user = {userID: userQuery[0].userID,
                     userName: userQuery[0].userName,
                     userPassword: userQuery[0].userPassword }
-
-                const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1h'})
-                    console.log('password confirmed')
+                    const token = jwt.sign(user, process.env.SECRET_KEY, {expiresIn: '1h'})
                     res.json({accessToken: token});
             } else {
-                console.log('DENIED')
                 res.json({accessToken: 'passwordInvalid'})
             }
         }
-    }catch(error) {
+    } catch (error) {
         res.json(error)
     }
 })
 //* END User Login***
 
-
 function authToken(req, res, next) {
-    const authHeader = req.headers['auth'];
+    const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
     if(token === null) {
-        res.json("Token not given, access denied.")
+        res.json("token not provided, access denied")
     } else {
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
-            if(error) {
-                res.json("Token verification error, access denied")
+        jwt.verify(token, process.env.SECRET_KEY, (error, user) => {
+            if( error) {
+                res.json({error: error.message})
             } else {
-                req.user = user
-                next()
+                req.user = user;
+                console.log('user is ' + user.userID)
+                next();
             }
         })
     }
 }
+
+// auth.post('/login', login)
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
