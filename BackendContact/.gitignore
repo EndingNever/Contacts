@@ -1,3 +1,4 @@
 .gitignore
 pass.env
 .env
+node_modules

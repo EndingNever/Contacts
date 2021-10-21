@@ -14,8 +14,8 @@
       "
     >
     <!-- <div *ngFor="let contact of contacts">{{contact.FirstName}}</div> -->
-      <h6> <input class="text-center" placeholder="Username" type="text" #userNameLogin value='gown'/></h6>
-      <h6> <input class="text-center" placeholder="Password" type="password" #userPassLogin value='gown'/></h6>
+      <h6> <input class="text-center" placeholder="Username" type="text" #userNameLogin /></h6>
+      <h6> <input class="text-center" placeholder="Password" type="password" #userPassLogin /></h6>
       <p *ngIf="passwordInvalid===1">Incorrect username or password</p>
       <button class="btn btn-primary" (click)="onLogin(userNameLogin.value, userPassLogin.value)">login</button>
       <button class="btn btn-success" (click)="signUp = true">Sign up</button>
