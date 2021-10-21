@@ -2,3 +2,6 @@ node_modules
 .gitignore
 pass.env
 .env
+requests.rest
+server.js
+util.js
